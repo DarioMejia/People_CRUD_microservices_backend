@@ -1,0 +1,70 @@
+version: "3.1"
+
+networks:
+  main_network:
+    name: main_network
+
+services:
+  create_service:
+    container_name: create_service_container
+    build:
+      context: .
+    restart: "no"
+    env_file:
+      - ./.env
+    networks:
+      - main_network
+    ports:
+      - "8011:8011"
+    command:
+      - sh
+      - run-prod.sh
+      - create
+
+  read_service:
+    container_name: read_service_container
+    build:
+      context: .
+    restart: "no"
+    env_file:
+      - ./.env
+    networks:
+      - main_network
+    ports:
+      - "8012:8012"
+    command:
+      - sh
+      - run-prod.sh
+      - read
+
+  update_service:
+    container_name: update_service_container
+    build:
+      context: .
+    restart: "no"
+    env_file:
+      - ./.env
+    networks:
+      - main_network
+    ports:
+      - "8013:8013"
+    command:
+      - sh
+      - run-prod.sh
+      - update
+
+  delete_service:
+    container_name: delete_service_container
+    build:
+      context: .
+    restart: "no"
+    env_file:
+      - ./.env
+    networks:
+      - main_network
+    ports:
+      - "8014:8014"
+    command:
+      - sh
+      - run-prod.sh
+      - delete
