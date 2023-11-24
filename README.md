@@ -33,3 +33,16 @@ This command will start all the microservices and make them available for use. B
 - *dtos/:* Includes the Data Transfer Objects used in the application.
 - *services/:* Houses the individual microservices for CRUD operations.
 - *docker-compose.yml:* Defines the services, networks, and volumes for Docker.
+
+## CRUD Endpoints
+Each service in this microservices architecture exposes specific endpoints for CRUD operations. Below are the endpoints and their corresponding functionalities:
+1. **Create Service (Port 8011)**
+   - POST `localhost:8011/`: Create a new person record.
+2. **Read Service (Port 8012)**
+   - GET `localhost:8012/`: List all people records.
+   - GET `localhost:8012/{doc_id}`: Retrieve details of a specific person record by document ID.
+3. **Update Service (Port 8013)**
+   - PATCH `localhost:8013/{doc_id}`: Update an existing person record by document ID.
+   - PATCH `localhost:8013/{doc_id}/image`: Update the image of a specific person record by document ID.
+4. **Delete Service (Port 8014)**
+   - DELETE `localhost:8014/{doc_id}`: Delete a specific person record by document ID.
