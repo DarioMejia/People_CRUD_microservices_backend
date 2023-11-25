@@ -35,14 +35,26 @@ This command will start all the microservices and make them available for use. B
 - *docker-compose.yml:* Defines the services, networks, and volumes for Docker.
 
 ## CRUD Endpoints
-Each service in this microservices architecture exposes specific endpoints for CRUD operations. Below are the endpoints and their corresponding functionalities:
-1. **Create Service (Port 8011)**
-   - POST `localhost:8011/`: Create a new person record.
-2. **Read Service (Port 8012)**
-   - GET `localhost:8012/`: List all people records.
-   - GET `localhost:8012/{doc_id}`: Retrieve details of a specific person record by document ID.
-3. **Update Service (Port 8013)**
-   - PATCH `localhost:8013/{doc_id}`: Update an existing person record by document ID.
-   - PATCH `localhost:8013/{doc_id}/image`: Update the image of a specific person record by document ID.
-4. **Delete Service (Port 8014)**
-   - DELETE `localhost:8014/{doc_id}`: Delete a specific person record by document ID.
+
+The microservices architecture provides distinct services for each CRUD operation. Below are the updated endpoints and their functionalities:
+
+1. **Create Service**
+   - POST `/`: Creates a new person record.
+     - Endpoint: `http://localhost:8011/`
+
+2. **Read Service**
+   - GET `/`: Lists all people records.
+     - Endpoint: `http://localhost:8012/`
+   - GET `/detail`: Retrieves details of a person by `doc_id` and `doc_type`.
+     - Endpoint: `http://localhost:8012/detail?doc_id=<doc_id>&doc_type=<doc_type>`
+
+3. **Update Service**
+   - PATCH `/`: Updates a person record by `doc_id` and `doc_type`.
+     - Endpoint: `http://localhost:8013/?doc_id=<doc_id>&doc_type=<doc_type>`
+
+4. **Delete Service**
+   - DELETE `/`: Deletes a person record by `doc_id` and `doc_type`.
+     - Endpoint: `http://localhost:8014/?doc_id=<doc_id>&doc_type=<doc_type>`
+
+Each service is designed to handle specific types of requests, ensuring a clear and efficient architecture for managing people records.
+
