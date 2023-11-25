@@ -59,7 +59,6 @@ Each service in the microservices architecture expects specific data formats for
 
 
 ### Create Service (Port 8011)
-
 - **Endpoint**: POST `http://localhost:8011/`
 - **Request Schema**:
   - document_type: string
@@ -71,8 +70,7 @@ Each service in the microservices architecture expects specific data formats for
   - gender: string
   - email: string
   - phone: string
-  - photo_url: string (Optional)
-
+  - photo_url: Optional[string]
 - **Response Schema**:
   - document_type: string
   - document_id: string
@@ -86,27 +84,25 @@ Each service in the microservices architecture expects specific data formats for
   - photo_url: string
 
 ### Read Service (Port 8012)
-
 - **List Endpoint**: GET `http://localhost:8012/`
   - **Response Schema**: Array of people objects as defined in the Create Service response schema.
-
 - **Detail Endpoint**: GET `http://localhost:8012/detail?doc_id=<doc_id>&doc_type=<doc_type>`
   - **Response Schema**: Single person object as defined in the Create Service response schema.
 
 ### Update Service (Port 8013)
 
 - **Endpoint**: PATCH `http://localhost:8013/?doc_id=<doc_id>&doc_type=<doc_type>`
-- **Request Schema**:
-  - first_name: string (optional)
-  - last_name: string (optional)
-  - age: number (optional)
-  - city: string (optional)
-  - photo_url: string (optional)
-
+- **Request Schema** (all fields are optional):
+  - first_name: Optional[string]
+  - middle_name: Optional[string]
+  - last_name: Optional[string]
+  - birth_date: Optional[date]
+  - gender: Optional[string]
+  - email: Optional[string]
+  - phone: Optional[string]
 - **Response Schema**: Single person object as defined in the Create Service response schema.
 
 ### Delete Service (Port 8014)
-
 - **Endpoint**: DELETE `http://localhost:8014/?doc_id=<doc_id>&doc_type=<doc_type>`
 - **Response Schema**:
   - message: string
