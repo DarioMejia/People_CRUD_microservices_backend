@@ -35,14 +35,74 @@ This command will start all the microservices and make them available for use. B
 - *docker-compose.yml:* Defines the services, networks, and volumes for Docker.
 
 ## CRUD Endpoints
-Each service in this microservices architecture exposes specific endpoints for CRUD operations. Below are the endpoints and their corresponding functionalities:
-1. **Create Service (Port 8011)**
-   - POST `localhost:8011/`: Create a new person record.
-2. **Read Service (Port 8012)**
-   - GET `localhost:8012/`: List all people records.
-   - GET `localhost:8012/{doc_id}`: Retrieve details of a specific person record by document ID.
-3. **Update Service (Port 8013)**
-   - PATCH `localhost:8013/{doc_id}`: Update an existing person record by document ID.
-   - PATCH `localhost:8013/{doc_id}/image`: Update the image of a specific person record by document ID.
-4. **Delete Service (Port 8014)**
-   - DELETE `localhost:8014/{doc_id}`: Delete a specific person record by document ID.
+The microservices architecture provides distinct services for each CRUD operation. Below are the updated endpoints and their functionalities:
+1. **Create Service**
+   - POST `/`: Creates a new person record.
+     - Endpoint: `http://localhost:8011/`
+2. **Read Service**
+   - GET `/`: Lists all people records.
+     - Endpoint: `http://localhost:8012/`
+   - GET `/detail`: Retrieves details of a person by `doc_id` and `doc_type`.
+     - Endpoint: `http://localhost:8012/detail?doc_id=<doc_id>&doc_type=<doc_type>`
+3. **Update Service**
+   - PATCH `/`: Updates a person record by `doc_id` and `doc_type`.
+     - Endpoint: `http://localhost:8013/?doc_id=<doc_id>&doc_type=<doc_type>`
+4. **Delete Service**
+   - DELETE `/`: Deletes a person record by `doc_id` and `doc_type`.
+     - Endpoint: `http://localhost:8014/?doc_id=<doc_id>&doc_type=<doc_type>`
+
+Each service is designed to handle specific types of requests, ensuring a clear and efficient architecture for managing people records.
+
+## Service Schemas
+
+Each service in the microservices architecture expects specific data formats for requests and provides responses in defined schemas. Here's a breakdown for each service:
+
+
+### Create Service (Port 8011)
+- **Endpoint**: POST `http://localhost:8011/`
+- **Request Schema**:
+  - document_type: string
+  - document_id: string
+  - first_name: string
+  - middle_name: string
+  - last_name: string
+  - birth_date: date
+  - gender: string
+  - email: string
+  - phone: string
+  - photo_url: Optional[string]
+- **Response Schema**:
+  - document_type: string
+  - document_id: string
+  - first_name: string
+  - middle_name: string
+  - last_name: string
+  - birth_date: date
+  - gender: string
+  - email: string
+  - phone: string
+  - photo_url: string
+
+### Read Service (Port 8012)
+- **List Endpoint**: GET `http://localhost:8012/`
+  - **Response Schema**: Array of people objects as defined in the Create Service response schema.
+- **Detail Endpoint**: GET `http://localhost:8012/detail?doc_id=<doc_id>&doc_type=<doc_type>`
+  - **Response Schema**: Single person object as defined in the Create Service response schema.
+
+### Update Service (Port 8013)
+
+- **Endpoint**: PATCH `http://localhost:8013/?doc_id=<doc_id>&doc_type=<doc_type>`
+- **Request Schema** (all fields are optional):
+  - first_name: Optional[string]
+  - middle_name: Optional[string]
+  - last_name: Optional[string]
+  - birth_date: Optional[date]
+  - gender: Optional[string]
+  - email: Optional[string]
+  - phone: Optional[string]
+- **Response Schema**: Single person object as defined in the Create Service response schema.
+
+### Delete Service (Port 8014)
+- **Endpoint**: DELETE `http://localhost:8014/?doc_id=<doc_id>&doc_type=<doc_type>`
+- **Response Schema**:
+  - message: string
