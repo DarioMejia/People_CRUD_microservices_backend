@@ -106,5 +106,3 @@ Each service in the microservices architecture expects specific data formats for
 - **Endpoint**: DELETE `http://localhost:8014/?doc_id=<doc_id>&doc_type=<doc_type>`
 - **Response Schema**:
   - message: string
-
-This document outlines the data formats expected by each service in the microservices architecture for creating, reading, updating, and deleting people records.
