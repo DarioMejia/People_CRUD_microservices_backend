@@ -89,13 +89,13 @@ class PeopleDAO:
         logger.info(f"retrieving people with document_id {doc_id} and document_type {doc_type}")
         people = self.read_by_doc_id_and_type(doc_id, doc_type)
 
-        # file cannot be larger than 2MB
+        # validate that file cannot be larger than 2MB
         if uploaded_file.size > 2 * 1024 * 1024:
             raise HTTPException(
                 status_code=400, detail="La imagen no puede ser mayor a 2MB"
             )
 
-        # file must a png or jpg
+        # validate that file is a png, jpg or jpeg
         if uploaded_file.content_type not in ["image/png", "image/jpeg", "image/jpg"]:
             raise HTTPException(
                 status_code=400, detail="La imagen debe ser png, jpg o jpeg"
