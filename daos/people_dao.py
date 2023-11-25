@@ -6,8 +6,10 @@ import cloudinary.api
 import cloudinary.uploader
 from fastapi import HTTPException, UploadFile
 from pymongo import database
+from pydantic import field_validator
 
 from dtos.people_dto import CreatePeopleDTO, DetailPeopleDTO, UpdatePeopleDTO
+from core.validations import validate_document_type
 
 logger = logging.getLogger(__name__)
 
@@ -45,11 +47,11 @@ class PeopleDAO:
         self.collection.insert_one(people_as_dict)
         return from_mongo_to_people_detail(people_as_dict)
 
-    def read_by_doc_id(self, doc_id: str) -> DetailPeopleDTO:
-        data = self.collection.find_one({"document_id": doc_id})
+    def read_by_doc_id_and_type(self, doc_id: str, doc_type: str) -> DetailPeopleDTO:
+        data = self.collection.find_one({"document_id": doc_id, "document_type": doc_type})
         if data is None:
             raise HTTPException(
-                status_code=404, detail=f"La persona con documento {doc_id} no existe"
+                status_code=404, detail=f"La persona con {doc_type} número {doc_id} no existe"
             )
         return from_mongo_to_people_detail(data)
 
@@ -57,9 +59,9 @@ class PeopleDAO:
         data = self.collection.find({})
         return [from_mongo_to_people_detail(d) for d in data]
 
-    def update_by_doc_id(self, doc_id: str, data: UpdatePeopleDTO) -> DetailPeopleDTO:
-        logger.info(f"retrieving people with document_id {doc_id}")
-        people = self.read_by_doc_id(doc_id)
+    def update_by_doc_id_and_type(self, doc_id: str, doc_type: str, data: UpdatePeopleDTO) -> DetailPeopleDTO:
+        logger.info(f"retrieving people with document_id {doc_id} and document_type {doc_type}")
+        people = self.read_by_doc_id_and_type(doc_id, doc_type)
         to_update_data = data.model_dump()
         # remove None values
         to_update_data = {k: v for k, v in to_update_data.items() if v is not None}
@@ -115,8 +117,8 @@ class PeopleDAO:
 
         return new_people
 
-    def delete_by_doc_id(self, doc_id: str) -> DetailPeopleDTO:
-        people = self.read_by_doc_id(doc_id)
+    def delete_by_doc_id_and_type(self, doc_id: str, doc_type: str) -> DetailPeopleDTO:
+        people = self.read_by_doc_id_and_type(doc_id, doc_type)
         logger.info(f"deleting people with document_id {doc_id}")
         self.collection.delete_one({"document_id": doc_id})
         logger.info(f"people with document_id {doc_id} deleted")

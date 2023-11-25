@@ -1,5 +1,5 @@
 import logging
-from fastapi import FastAPI
+from fastapi import FastAPI, Query
 from starlette import status
 
 from data.databases.remote.database import get_mongo_database
@@ -17,9 +17,9 @@ mongo_database = get_mongo_database()
 people_dao = PeopleDAO(mongo_database)
 
 
-@app.delete("/{doc_id}", status_code=status.HTTP_200_OK)
-def delete(doc_id: str):
-    people = people_dao.delete_by_doc_id(doc_id)
+@app.delete("/", status_code=status.HTTP_200_OK)
+def delete(doc_id: str = Query(...), doc_type: str = Query(...)):
+    people = people_dao.delete_by_doc_id_and_type(doc_id, doc_type)
     return people
 
 

@@ -1,5 +1,5 @@
 import logging
-from fastapi import FastAPI
+from fastapi import FastAPI, Query
 
 from data.databases.remote.database import get_mongo_database
 from config.logging import config_logger
@@ -22,9 +22,9 @@ def list():
     return people_list
 
 
-@app.get("/{doc_id}")
-def detail(doc_id: str):
-    people = people_dao.read_by_doc_id(doc_id)
+@app.get("/detail")
+def detail(doc_id: str = Query(...), doc_type: str = Query(...)):
+    people = people_dao.read_by_doc_id_and_type(doc_id, doc_type)
     return people
 
 

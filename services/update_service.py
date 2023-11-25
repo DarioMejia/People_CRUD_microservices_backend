@@ -1,5 +1,5 @@
 import logging
-from fastapi import FastAPI, UploadFile
+from fastapi import FastAPI, UploadFile, Query
 
 from data.databases.remote.database import get_mongo_database
 from config.logging import config_logger
@@ -17,9 +17,9 @@ mongo_database = get_mongo_database()
 people_dao = PeopleDAO(mongo_database)
 
 
-@app.patch("/{doc_id}")
-def update(doc_id: str, data: UpdatePeopleDTO):
-    people = people_dao.update_by_doc_id(doc_id, data)
+@app.patch("/")
+def update(data: UpdatePeopleDTO, doc_id: str = Query(...), doc_type: str = Query(...)):
+    people = people_dao.update_by_doc_id_and_type(doc_id, doc_type, data)
     return people
 
 
