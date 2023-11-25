@@ -86,7 +86,7 @@ class PeopleDAO:
     def update_photo_url_doc_id_and_type(
         self, doc_id: str, doc_type: str, uploaded_file: UploadFile
     ) -> DetailPeopleDTO:
-        logger.info(f"retrieving people with document_id {doc_id}")
+        logger.info(f"retrieving people with document_id {doc_id} and document_type {doc_type}")
         people = self.read_by_doc_id_and_type(doc_id, doc_type)
 
         # file cannot be larger than 2MB
@@ -103,7 +103,7 @@ class PeopleDAO:
 
         logger.info(f"uploading image to cloudinary")
         upload_result = cloudinary.uploader.upload(
-            uploaded_file.file, folder="people_service"
+            uploaded_file.file, folder="people_crud_microservices"
         )
 
         photo_url = upload_result["secure_url"]
@@ -119,7 +119,7 @@ class PeopleDAO:
 
     def delete_by_doc_id_and_type(self, doc_id: str, doc_type: str) -> DetailPeopleDTO:
         people = self.read_by_doc_id_and_type(doc_id, doc_type)
-        logger.info(f"deleting people with document_id {doc_id}")
+        logger.info(f"deleting people with document_id {doc_id} and document_type {doc_type}")
         self.collection.delete_one({"document_id": doc_id})
-        logger.info(f"people with document_id {doc_id} deleted")
+        logger.info(f"people with document_id {doc_id}  and document_type {doc_type} deleted")
         return people
