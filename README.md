@@ -62,22 +62,27 @@ Each service in the microservices architecture expects specific data formats for
 
 - **Endpoint**: POST `http://localhost:8011/`
 - **Request Schema**:
-  - document_id: string
   - document_type: string
+  - document_id: string
   - first_name: string
+  - middle_name: string
   - last_name: string
-  - age: number
-  - city: string
-  - photo_url: string (optional)
+  - birth_date: date
+  - gender: string
+  - email: string
+  - phone: string
+  - photo_url: string (Optional)
 
 - **Response Schema**:
-  - id: string
-  - document_id: string
   - document_type: string
+  - document_id: string
   - first_name: string
+  - middle_name: string
   - last_name: string
-  - age: number
-  - city: string
+  - birth_date: date
+  - gender: string
+  - email: string
+  - phone: string
   - photo_url: string
 
 ### Read Service (Port 8012)
