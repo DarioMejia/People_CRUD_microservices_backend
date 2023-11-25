@@ -35,26 +35,75 @@ This command will start all the microservices and make them available for use. B
 - *docker-compose.yml:* Defines the services, networks, and volumes for Docker.
 
 ## CRUD Endpoints
-
 The microservices architecture provides distinct services for each CRUD operation. Below are the updated endpoints and their functionalities:
-
 1. **Create Service**
    - POST `/`: Creates a new person record.
      - Endpoint: `http://localhost:8011/`
-
 2. **Read Service**
    - GET `/`: Lists all people records.
      - Endpoint: `http://localhost:8012/`
    - GET `/detail`: Retrieves details of a person by `doc_id` and `doc_type`.
      - Endpoint: `http://localhost:8012/detail?doc_id=<doc_id>&doc_type=<doc_type>`
-
 3. **Update Service**
    - PATCH `/`: Updates a person record by `doc_id` and `doc_type`.
      - Endpoint: `http://localhost:8013/?doc_id=<doc_id>&doc_type=<doc_type>`
-
 4. **Delete Service**
    - DELETE `/`: Deletes a person record by `doc_id` and `doc_type`.
      - Endpoint: `http://localhost:8014/?doc_id=<doc_id>&doc_type=<doc_type>`
 
 Each service is designed to handle specific types of requests, ensuring a clear and efficient architecture for managing people records.
 
+## Service Schemas
+
+Each service in the microservices architecture expects specific data formats for requests and provides responses in defined schemas. Here's a breakdown for each service:
+
+
+### Create Service (Port 8011)
+
+- **Endpoint**: POST `http://localhost:8011/`
+- **Request Schema**:
+  - document_id: string
+  - document_type: string
+  - first_name: string
+  - last_name: string
+  - age: number
+  - city: string
+  - photo_url: string (optional)
+
+- **Response Schema**:
+  - id: string
+  - document_id: string
+  - document_type: string
+  - first_name: string
+  - last_name: string
+  - age: number
+  - city: string
+  - photo_url: string
+
+### Read Service (Port 8012)
+
+- **List Endpoint**: GET `http://localhost:8012/`
+  - **Response Schema**: Array of people objects as defined in the Create Service response schema.
+
+- **Detail Endpoint**: GET `http://localhost:8012/detail?doc_id=<doc_id>&doc_type=<doc_type>`
+  - **Response Schema**: Single person object as defined in the Create Service response schema.
+
+### Update Service (Port 8013)
+
+- **Endpoint**: PATCH `http://localhost:8013/?doc_id=<doc_id>&doc_type=<doc_type>`
+- **Request Schema**:
+  - first_name: string (optional)
+  - last_name: string (optional)
+  - age: number (optional)
+  - city: string (optional)
+  - photo_url: string (optional)
+
+- **Response Schema**: Single person object as defined in the Create Service response schema.
+
+### Delete Service (Port 8014)
+
+- **Endpoint**: DELETE `http://localhost:8014/?doc_id=<doc_id>&doc_type=<doc_type>`
+- **Response Schema**:
+  - message: string
+
+This document outlines the data formats expected by each service in the microservices architecture for creating, reading, updating, and deleting people records.
