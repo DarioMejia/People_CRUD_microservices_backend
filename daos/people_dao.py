@@ -83,11 +83,11 @@ class PeopleDAO:
 
         return DetailPeopleDTO(**new_people_data)
 
-    def update_photo_url_doc_id(
-        self, doc_id: str, uploaded_file: UploadFile
+    def update_photo_url_doc_id_and_type(
+        self, doc_id: str, doc_type: str, uploaded_file: UploadFile
     ) -> DetailPeopleDTO:
         logger.info(f"retrieving people with document_id {doc_id}")
-        people = self.read_by_doc_id(doc_id)
+        people = self.read_by_doc_id_and_type(doc_id, doc_type)
 
         # file cannot be larger than 2MB
         if uploaded_file.size > 2 * 1024 * 1024:

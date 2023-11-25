@@ -23,9 +23,9 @@ def update(data: UpdatePeopleDTO, doc_id: str = Query(...), doc_type: str = Quer
     return people
 
 
-@app.patch("/{doc_id}/image")
-def upload_image(doc_id: str, file: UploadFile):
-    people = people_dao.update_photo_url_doc_id(doc_id, file)
+@app.patch("/image")
+def upload_image(file: UploadFile, doc_id: str = Query(...), doc_type: str = Query(...)):
+    people = people_dao.update_photo_url_doc_id_and_type(doc_id, doc_type, file)
     return people
 
 
